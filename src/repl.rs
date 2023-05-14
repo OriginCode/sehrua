@@ -10,9 +10,14 @@ pub fn start_repl() -> Result<()> {
         match rl.readline("> ") {
             Ok(line) => {
                 rl.add_history_entry(line.as_str())?;
-                match eval(line) {
-                    Ok(i) => println!("{i}"),
-                    Err(c) => println!("{c}"),
+                if line == "exit" {
+                    println!("exiting");
+                    break;
+                } else {
+                    match eval(line) {
+                        Ok(i) => println!("{i}"),
+                        Err(c) => println!("{c}"),
+                    }
                 }
             }
             Err(ReadlineError::Interrupted) => {

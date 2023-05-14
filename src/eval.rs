@@ -29,9 +29,9 @@ fn drain_args(stack: &mut Vec<Token>, n: usize) -> Result<Drain<Token>> {
 
 fn eval_exp(mut stack: Vec<Token>, s: &str) -> Result<Vec<Token>> {
     use Token::*;
-    if let Some(i) = s.parse::<f64>().ok() {
+    if let Ok(i) = s.parse::<f64>() {
         stack.push(Const(i));
-    } else if let Some(b) = s.parse::<bool>().ok() {
+    } else if let Ok(b) = s.parse::<bool>() {
         stack.push(Bool(b));
     } else {
         match s {
@@ -58,7 +58,7 @@ fn eval_exp(mut stack: Vec<Token>, s: &str) -> Result<Vec<Token>> {
             }
             "IFTE" => {
                 let (arg1, arg2, arg3) = match drain_args(&mut stack, 3)?.collect_tuple().unwrap() {
-                    (Bool(b), v1 @ _, v2 @ _) => (b, v1, v2),
+                    (Bool(b), v1, v2) => (b, v1, v2),
                     _ => bail!("illegal stack, please check the expression"),
                 };
                 if arg1 {
@@ -67,7 +67,7 @@ fn eval_exp(mut stack: Vec<Token>, s: &str) -> Result<Vec<Token>> {
                     stack.push(arg3);
                 }
             }
-            s @ _ => stack.push(Str(s.to_owned())),
+            s => stack.push(Str(s.to_owned())),
         }
     }
 
