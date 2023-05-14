@@ -6,5 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-anyhow = "1.0.71"
-rustyline = "11.0.0"
+anyhow = "1"
+itertools = "0.10"
+rustyline = "11.0"
