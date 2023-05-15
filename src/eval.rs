@@ -5,7 +5,6 @@ use std::{fmt, vec::Drain};
 enum Token {
     Const(f64),
     Bool(bool),
-    Str(String),
 }
 
 impl fmt::Display for Token {
@@ -14,7 +13,6 @@ impl fmt::Display for Token {
         match self {
             Const(i) => write!(f, "{i}"),
             Bool(b) => write!(f, "{b}"),
-            Str(s) => write!(f, "{s}"),
         }
     }
 }
@@ -67,7 +65,7 @@ fn eval_exp(mut stack: Vec<Token>, s: &str) -> Result<Vec<Token>> {
                     stack.push(arg3);
                 }
             }
-            s => stack.push(Str(s.to_owned())),
+            s => bail!("illegal token: {}", s),
         }
     }
 
