@@ -10,7 +10,7 @@ pub fn start_repl() -> Result<()> {
         match rl.readline("> ") {
             Ok(line) => {
                 rl.add_history_entry(line.as_str())?;
-                if line == "exit" {
+                if line == ",exit" {
                     println!("exiting");
                     break;
                 } else {
